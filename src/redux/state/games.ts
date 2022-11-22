@@ -1,17 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Games, LocalStorageTypes } from "../../models";
+import { LocalStorageTypes } from "../../models";
+import {
+  IError,
+  IGame,
+  IInitialState,
+  IStatus
+} from "../../models/game";
 import { getLocalStorage, setLocalStorage } from "../../utilities";
 
 const API_URL =
   "https://api.rawg.io/api/games?key=004533bcae8f436c845747a2050b54f0";
 // const API_KEY = "?key=004533bcae8f436c845747a2050b54f0&page_size=20";
 
-const initialState = {
-  games: [],
-  searchGames: [],
+let initialState: IInitialState = {
+  game: [],
+  searchGame: [],
   status: "idle",
-  error: null,
+  error: null
 };
 
 export const fetchGames = createAsyncThunk("games/fetchGames", async () => {
@@ -20,21 +26,22 @@ export const fetchGames = createAsyncThunk("games/fetchGames", async () => {
 });
 
 export const gameSlice = createSlice({
-  name: "games",
+  name: "game",
+  // initialState,
   initialState: getLocalStorage(LocalStorageTypes.GAME)
     ? JSON.parse(getLocalStorage(LocalStorageTypes.GAME) as string)
     : initialState,
 
   reducers: {
-    getAllGames: (state: [], action: any) => {
+    getAllGames: (state: IGame, action) => {
       setLocalStorage(LocalStorageTypes.GAME, state);
       return action.payload;
     },
-    searchGameByName: (state, action) => {
-      state.games = state.searchGames.filter((game: Games) =>
-        game.name.toLowerCase().includes(action.payload.toLowerCase())
-      );
-    },
+    // searchGameByName: (state, action) => {
+    //   state.game = state.searchGame.filter((ga: IGame) =>
+    //     ga.name.toLowerCase().includes(action.payload.toLowerCase())
+    //   );
+    // },
   },
 
   extraReducers(builder) {
@@ -46,8 +53,8 @@ export const gameSlice = createSlice({
 
       .addCase(fetchGames.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.games = state.games.concat(action.payload);
-        state.searchGames = state.searchGames.concat(action.payload);
+        state.game = state.game.concat(action.payload);
+        state.searchGame = state.searchGame.concat(action.payload);
       })
 
       .addCase(fetchGames.rejected, (state, action) => {
@@ -56,9 +63,10 @@ export const gameSlice = createSlice({
   },
 });
 
-export const allGames = (state: any) => state.games.games;
-export const getGamesStatus = (state: any) => state.games.status;
-export const getGamesErrors = (state: any) => state.games.error;
 
-export const { getAllGames, searchGameByName } = gameSlice.actions;
+export const allGames = (state: IInitialState) => state.game;
+export const getGamesStatus = (state: IStatus) => state.status;
+export const getGamesErrors = (state: IError) => state.error;
+
+export const { getAllGames } = gameSlice.actions;
 export default gameSlice.reducer;

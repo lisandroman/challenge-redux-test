@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { allGames, searchGameByName } from "../../redux/state/games";
+import { allGames } from "../../redux/state/games";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,8 @@ const NavBar = () => {
   const handleChange = (e: any) => {
     // dispatch(searchGameByName(e.target.value));
     // if (!e.target.value) return getAllGames;
-    dispatch(searchGameByName(e.target.value))
+    // dispatch(searchGameByName(e.target.value))
+    console.log('Hola')
   };
 
   return (

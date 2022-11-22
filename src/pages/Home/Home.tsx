@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GamesCards, Pagination } from "../../components";
-import { Games } from "../../models";
+import { IGame } from "../../models";
 import {
-  allGames,
-  getGamesStatus,
-  getGamesErrors,
-  fetchGames,
+  allGames, fetchGames, getGamesErrors, getGamesStatus
 } from "../../redux/state/games";
 
 export interface HomeInterface {
@@ -37,7 +34,7 @@ const Home: React.FC<HomeInterface> = () => {
       </div>
     );
   } else if (gamesStatus === "succeeded") {
-    content = getAllGames?.map((game: Games) => (
+    content = getAllGames?.map((game: IGame) => (
       <div key={game.id}>
         <span>{game.id} -</span>
         <span> {game.name} -</span>

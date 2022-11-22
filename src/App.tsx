@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NavBar } from "./components";
-import { Games } from "./models";
 import { Details, Error404, Favorites, Home } from "./pages";
 
 function App() {

@@ -1,16 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { Games } from "../models";
-import { favoriteSlice } from "./state/favorites";
+import { IGame } from "../models";
 import { gameSlice } from "./state/games";
 
 export interface AppStore {
-  games: Games[];
-  favorites: Games[];
+  game: IGame;
+  // favorites: Games[];
 }
 
 export default configureStore<AppStore>({
   reducer: {
-    games: gameSlice.reducer,
-    favorites: favoriteSlice.reducer
+    game: gameSlice.reducer,
+    // favorites: favoriteSlice.reducer
   },
 });
