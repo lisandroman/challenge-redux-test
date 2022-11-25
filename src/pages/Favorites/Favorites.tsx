@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Games } from "../../models";
 import { allFavGames } from "../../redux/state/favorites";
 
 export interface FavoritesInterface {}

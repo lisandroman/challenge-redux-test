@@ -1,12 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { LocalStorageTypes } from "../../models";
-import {
-  IError,
-  IGame,
-  IInitialState,
-  IStatus
-} from "../../models/game";
+import { IInitialState } from "../../models/game";
 import { getLocalStorage, setLocalStorage } from "../../utilities";
 
 const API_URL =
@@ -17,11 +12,12 @@ let initialState: IInitialState = {
   game: [],
   searchGame: [],
   status: "idle",
-  error: null
+  error: null,
 };
 
 export const fetchGames = createAsyncThunk("games/fetchGames", async () => {
   const response = await axios.get(API_URL);
+  console.log(response.data.results);
   return response.data.results;
 });
 
@@ -33,7 +29,7 @@ export const gameSlice = createSlice({
     : initialState,
 
   reducers: {
-    getAllGames: (state: IGame, action) => {
+    getAllGames: (state, action) => {
       setLocalStorage(LocalStorageTypes.GAME, state);
       return action.payload;
     },
@@ -54,7 +50,6 @@ export const gameSlice = createSlice({
       .addCase(fetchGames.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.game = state.game.concat(action.payload);
-        state.searchGame = state.searchGame.concat(action.payload);
       })
 
       .addCase(fetchGames.rejected, (state, action) => {
@@ -63,10 +58,9 @@ export const gameSlice = createSlice({
   },
 });
 
-
-export const allGames = (state: IInitialState) => state.game;
-export const getGamesStatus = (state: IStatus) => state.status;
-export const getGamesErrors = (state: IError) => state.error;
+export const allGames = (state: any) => state.game.game;
+export const getGamesStatus = (state: any) => state.game.status;
+export const getGamesErrors = (state: any) => state.game.error;
 
 export const { getAllGames } = gameSlice.actions;
 export default gameSlice.reducer;

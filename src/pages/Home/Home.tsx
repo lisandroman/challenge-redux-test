@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GamesCards, Pagination } from "../../components";
 import { IGame } from "../../models";
-import {
-  allGames, fetchGames, getGamesErrors, getGamesStatus
-} from "../../redux/state/games";
+import { fetchGames, allGames, getGamesStatus, getGamesErrors } from '../../redux/state/games';
+
 
 export interface HomeInterface {
 }
@@ -14,6 +13,7 @@ const Home: React.FC<HomeInterface> = () => {
   const getAllGames = useSelector(allGames);
   const gamesStatus = useSelector(getGamesStatus);
   const gamesErrors = useSelector(getGamesErrors);
+ 
 
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(4);
@@ -45,17 +45,18 @@ const Home: React.FC<HomeInterface> = () => {
     content = <p>{gamesErrors}</p>;
   }
 
+
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = getAllGames?.slice(
     indexOfFirstRecord,
     indexOfLastRecord
   );
-  const nPages = Math.ceil(getAllGames.length / recordsPerPage);
+  const nPages = Math.ceil(getAllGames?.length / recordsPerPage);
 
   return (
     <div>
-      <h4>Games found: {content?.length}</h4>
+      {/* <h4>Games found: {content?.length}</h4> */}
       <GamesCards data={currentRecords}/>
       <Pagination
         nPages={nPages}

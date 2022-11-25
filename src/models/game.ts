@@ -20,7 +20,7 @@ export interface ISearchGames {
 }
 
 export interface IStatus {
-  status: string;
+  status: "idle" | "pending" | "succeeded" | "failed";
 }
 
 export interface IError {

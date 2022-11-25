@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Games, LocalStorageTypes } from "../../models";
+import {  LocalStorageTypes } from "../../models";
 import { getLocalStorage, setLocalStorage } from "../../utilities";
 
 const initialState = {
